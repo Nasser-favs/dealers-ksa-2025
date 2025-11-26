@@ -1,0 +1,626 @@
+# Simple workflow for deploying static content to GitHub Pages
+name: Deploy static content to Pages
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>دليل وكلاء السيارات في السعودية 2025</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:#f5f5f5;
+      margin:0;
+      padding:0;
+      direction:rtl;
+    }
+    .container{
+      max-width:1200px;
+      margin:20px auto;
+      background:#fff;
+      padding:16px 20px 24px;
+      border-radius:10px;
+      box-shadow:0 4px 12px rgba(0,0,0,0.06);
+    }
+    h1{font-size:1.4rem;margin:0 0 4px;}
+    .subtitle{color:#666;font-size:.9rem;margin-bottom:12px;}
+    .filters{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-bottom:10px;
+    }
+    .filters input,.filters select{
+      padding:6px 8px;
+      border-radius:6px;
+      border:1px solid #ccc;
+      font-size:.85rem;
+      min-width:140px;
+    }
+    .filters label{
+      font-size:.8rem;
+      color:#444;
+      display:flex;
+      flex-direction:column;
+      gap:3px;
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:.78rem;
+    }
+    thead{
+      background:#f0f2f5;
+    }
+    th,td{
+      padding:6px 8px;
+      border-bottom:1px solid #eee;
+      text-align:right;
+      vertical-align:middle;
+    }
+    th{
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    th.sortable::after{
+      content:" ⇅";
+      font-size:.7rem;
+      color:#999;
+    }
+    tr:nth-child(even){
+      background:#fafafa;
+    }
+    a{
+      color:#0066cc;
+      text-decoration:none;
+    }
+    a:hover{text-decoration:underline;}
+    .badge-offer{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:2px 8px;
+      border-radius:999px;
+      background:#ffe9cc;
+      color:#b25b00;
+      font-size:.7rem;
+      cursor:pointer;
+      border:1px solid #ffbd66;
+    }
+    .badge-offer::before{
+      content:"٪";
+      font-weight:bold;
+      margin-left:4px;
+    }
+    .no-offer{
+      font-size:.7rem;
+      color:#888;
+    }
+    .footer{
+      margin-top:10px;
+      font-size:.75rem;
+      color:#777;
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:4px;
+    }
+    /* Modal */
+    .modal-backdrop{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.35);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:50;
+    }
+    .modal{
+      background:#fff;
+      border-radius:10px;
+      max-width:420px;
+      width:92%;
+      padding:14px 16px 16px;
+      box-shadow:0 10px 25px rgba(0,0,0,0.2);
+    }
+    .modal-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:6px;
+    }
+    .modal-title{
+      font-size:1rem;
+      margin:0;
+    }
+    .modal-close{
+      border:none;
+      background:none;
+      font-size:1.1rem;
+      cursor:pointer;
+      line-height:1;
+    }
+    .modal-body{
+      font-size:.8rem;
+      color:#444;
+      line-height:1.6;
+      margin-bottom:10px;
+    }
+    .modal-body p{margin:4px 0;}
+    .modal-footer{
+      text-align:left;
+    }
+    .btn-link{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:6px;
+      background:#0059c9;
+      color:#fff;
+      font-size:.78rem;
+      text-decoration:none;
+    }
+    .btn-link:hover{background:#0047a1;}
+    .pill{
+      background:#eef3ff;
+      color:#304b9a;
+      border-radius:999px;
+      padding:2px 8px;
+      font-size:.7rem;
+      margin-right:4px;
+    }
+    @media (max-width:768px){
+      th:nth-child(5),td:nth-child(5){display:none;} /* إخفاء عمود المدينة على الشاشات الصغيرة لتسهيل القراءة */
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>دليل وكلاء السيارات في السعودية 2025</h1>
+  <div class="subtitle">
+    قاعدة بيانات قابلة للبحث والفرز، مع إشارة إلى العروض الحالية وروابطها الرسمية.
+  </div>
+
+  <div class="filters">
+    <label>
+      بحث عام
+      <input id="searchInput" type="text" placeholder="ابحث بالعلامة أو الوكيل أو المدينة...">
+    </label>
+    <label>
+      الدولة
+      <select id="countryFilter">
+        <option value="">الكل</option>
+        <option>اليابان</option>
+        <option>كوريا الجنوبية</option>
+        <option>أمريكا</option>
+        <option>ألمانيا</option>
+        <option>بريطانيا</option>
+        <option>فرنسا</option>
+        <option>الصين</option>
+      </select>
+    </label>
+    <label>
+      وجود عروض
+      <select id="offerFilter">
+        <option value="">الكل</option>
+        <option value="yes">يوجد عروض</option>
+        <option value="no">لا يوجد</option>
+      </select>
+    </label>
+  </div>
+
+  <table id="dealersTable">
+    <thead>
+      <tr>
+        <th class="sortable" data-key="brand">العلامة</th>
+        <th class="sortable" data-key="country">الدولة</th>
+        <th class="sortable" data-key="dealer">الوكيل</th>
+        <th>موقع الوكيل</th>
+        <th class="sortable" data-key="city">المدينة</th>
+        <th>الهاتف</th>
+        <th>العروض</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+      <!-- يمتلئ ديناميكياً من JavaScript -->
+    </tbody>
+  </table>
+
+  <div class="footer">
+    <div id="stats"></div>
+    <div>آخر تحديث تقريبي للعروض: ربع 4 - 2025 (تحقق دائمًا من تفاصيل العرض في موقع الوكيل مباشرة).</div>
+  </div>
+</div>
+
+<!-- نافذة العروض -->
+<div class="modal-backdrop" id="offerModalBackdrop">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="offerTitle"></h2>
+      <button class="modal-close" id="offerCloseBtn">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p id="offerSummary"></p>
+      <p id="offerNotes" style="font-size:0.75rem;color:#777;"></p>
+    </div>
+    <div class="modal-footer">
+      <a id="offerLink" class="btn-link" href="#" target="_blank" rel="noopener">الانتقال إلى صفحة العرض</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // بيانات الوكلاء مع حقل العروض (مقتطفات عامة وروابط رسمية)
+  const dealers = [
+    {
+      brand:"تويوتا",
+      country:"اليابان",
+      dealer:"عبداللطيف جميل",
+      dealer_url:"https://www.alj.com",
+      city:"جدة",
+      phone:"8002444400",
+      brand_url:"https://www.toyota.com.sa",
+      parent_url:"https://global.toyota",
+      has_offers:true,
+      offer_title:"عروض تمويل تويوتا 2025 من عبداللطيف جميل",
+      offer_summary:"برامج تقسيط مرنة على موديلات مختارة مع دفعة أولى مخفضة ورسوم إدارية ميسرة.",
+      offer_link:"https://www.toyota.com.sa/ar/offers/aljufcampaign"
+    },
+    {
+      brand:"لكزس",
+      country:"اليابان",
+      dealer:"عبداللطيف جميل",
+      dealer_url:"https://www.alj.com",
+      city:"جدة",
+      phone:"8002444400",
+      brand_url:"https://www.lexus.com.sa",
+      parent_url:"https://www.lexus.com",
+      has_offers:true,
+      offer_title:"عروض لكزس الفاخرة 2025",
+      offer_summary:"عروض تمويل وتأجير منتهي بالتمليك على طرازات مختارة مع باقات صيانة وضمان ممتد.",
+      offer_link:"https://www.lexus.com.sa"
+    },
+    {
+      brand:"نيسان",
+      country:"اليابان",
+      dealer:"بترومين نيسان",
+      dealer_url:"https://www.petromin-nissan.com",
+      city:"الرياض",
+      phone:"920023670",
+      brand_url:"https://www.nissan.com.sa",
+      parent_url:"https://www.nissan-global.com",
+      has_offers:true,
+      offer_title:"عروض نيسان بترومين 2025",
+      offer_summary:"تقسيط بدون دفعة أولى على بعض الطرازات مع ضمان وخدمة مساعدة على الطريق.",
+      offer_link:"https://en.petromin-nissan.com/vehicles"
+    },
+    {
+      brand:"هيونداي",
+      country:"كوريا الجنوبية",
+      dealer:"هيونداي المجدوعي",
+      dealer_url:"https://www.hyundai.com/almajdouie/ar",
+      city:"الدمام",
+      phone:"8001242999",
+      brand_url:"https://www.hyundai.com.sa",
+      parent_url:"https://www.hyundai.com",
+      has_offers:true,
+      offer_title:"عروض نهاية العام من هيونداي المجدوعي",
+      offer_summary:"دفعة أولى صفر لبعض الموديلات مع تغطية ضمان ممتد وحملات صيانة مخفضة.",
+      offer_link:"https://ksa.motory.com/ar/عروض-السيارات/هيونداي-أحلامك-بانتظارك-لدى-الوعلان-امتلكها-بدون-مقدم-/"
+    },
+    {
+      brand:"هيونداي",
+      country:"كوريا الجنوبية",
+      dealer:"هيونداي الوعلان",
+      dealer_url:"https://www.hyundai.com/wallan/ar",
+      city:"الرياض",
+      phone:"920001966",
+      brand_url:"https://www.hyundai.com.sa",
+      parent_url:"https://www.hyundai.com",
+      has_offers:true,
+      offer_title:"عروض هيونداي الوعلان 2025",
+      offer_summary:"تمويل بدون دفعة أولى على طرازات مختارة مع مزايا صيانة وضمان ممدد.",
+      offer_link:"https://ksa.motory.com/ar/عروض-السيارات/انطلق-بسيارتك-هيونداي-من-الوعلان-الآن…-بدون-دفعة-أولى-/"
+    },
+    {
+      brand:"شيفروليه",
+      country:"أمريكا",
+      dealer:"الجميح للسيارات",
+      dealer_url:"https://chevrolet.ar.aljomaihauto.com",
+      city:"الرياض",
+      phone:"8007525252",
+      brand_url:"https://www.chevroletarabia.com",
+      parent_url:"https://www.chevrolet.com",
+      has_offers:true,
+      offer_title:"عروض شيفروليه من الجميح (بلو تاج)",
+      offer_summary:"خصومات على السعر النقدي وبرامج تقسيط ميسرة على تاهو وكابتيفا وموديلات أخرى.",
+      offer_link:"https://chevrolet.ar.aljomaihauto.com/offers/new-car-offers/"
+    },
+    {
+      brand:"شيفروليه",
+      country:"أمريكا",
+      dealer:"التوكيلات العالمية",
+      dealer_url:"https://chevrolet.ar.altawkilat.com",
+      city:"جدة",
+      phone:"8002442244",
+      brand_url:"https://www.chevroletarabia.com",
+      parent_url:"https://www.chevrolet.com",
+      has_offers:true,
+      offer_title:"عروض شيفروليه من التوكيلات العالمية",
+      offer_summary:"حزم تمويل وتأمين مع تسهيلات في الدفعة الأولى وطول مدة التقسيط على موديلات محددة.",
+      offer_link:"https://chevrolet.ar.altawkilat.com/offers/"
+    },
+    {
+      brand:"جي إم سي",
+      country:"أمريكا",
+      dealer:"التوكيلات العالمية",
+      dealer_url:"https://gmc.ar.altawkilat.com",
+      city:"جدة",
+      phone:"8002442244",
+      brand_url:"https://www.gmcarabia.com/sa-ar",
+      parent_url:"https://www.gmc.com",
+      has_offers:true,
+      offer_title:"عروض يوكن وسييرا 2025",
+      offer_summary:"عروض تقسيط وتمويل على سيارات يوكن وسييرا مع خيارات دفعة أولى مرنة.",
+      offer_link:"https://gmc.ar.altawkilat.com/offers/"
+    },
+    {
+      brand:"جيلي",
+      country:"الصين",
+      dealer:"الوعلان للتجارة",
+      dealer_url:"https://geelyksa.com",
+      city:"الرياض",
+      phone:"920001966",
+      brand_url:"https://geelyksa.com",
+      parent_url:"https://global.geely.com",
+      has_offers:true,
+      offer_title:"عروض جيلي 2025 من الوعلان",
+      offer_summary:"أقساط شهرية منافسة على كول راي وتوجيلا وغيرها مع عروض صيانة مجانية محدودة.",
+      offer_link:"https://geelyksa.com"
+    },
+    {
+      brand:"جي ايه سي",
+      country:"الصين",
+      dealer:"الجميح للسيارات",
+      dealer_url:"https://ar.gacmotorsaudi.com",
+      city:"الرياض",
+      phone:"8007525252",
+      brand_url:"https://ar.gacmotorsaudi.com",
+      parent_url:"https://www.gac-motor.com",
+      has_offers:true,
+      offer_title:"عروض GAC إمباو 2025",
+      offer_summary:"حزم تمويل ميسرة على إمباو وموديلات أخرى مع هدايا وخدمات إضافية.",
+      offer_link:"https://ar.gacmotorsaudi.com/offers/new-cars/empow/"
+    },
+    {
+      brand:"بي واي دي",
+      country:"الصين",
+      dealer:"الأولى المتقدمة",
+      dealer_url:"https://byd.com.sa",
+      city:"الرياض",
+      phone:"8001240404",
+      brand_url:"https://byd.com.sa",
+      parent_url:"https://www.byd.com",
+      has_offers:true,
+      offer_title:"عروض BYD الكهربائية 2025",
+      offer_summary:"عروض تمويل على السيارات الكهربائية والهجينة مع برامج صيانة للبطاريات.",
+      offer_link:"https://byd.com.sa/ar/locations/"
+    },
+    {
+      brand:"بيجو",
+      country:"فرنسا",
+      dealer:"المجدوعي",
+      dealer_url:"https://almajdouie.com/almajdouie_peugeot",
+      city:"الدمام",
+      phone:"8001242999",
+      brand_url:"https://ksa.peugeot.com/ar",
+      parent_url:"https://www.peugeot.com",
+      has_offers:true,
+      offer_title:"عروض نهاية العام من بيجو المجدوعي",
+      offer_summary:"خصومات نقدية وبرامج تقسيط على موديلات 3008 و508 وغيرها.",
+      offer_link:"https://ksa.motory.com/ar/عروض-السيارات/"
+    },
+    {
+      brand:"إم جي",
+      country:"الصين",
+      dealer:"جياد الحديثة",
+      dealer_url:"https://www.mg-sa.com",
+      city:"جدة",
+      phone:"8001240606",
+      brand_url:"https://www.mg-sa.com",
+      parent_url:"https://mgmotor.me",
+      has_offers:true,
+      offer_title:"عروض MG 2025 (تقسيط وصيانة)",
+      offer_summary:"أقساط منخفضة لفترة محدودة مع باقات صيانة وضمان ممتد على معظم الطرازات.",
+      offer_link:"https://www.mg-sa.com/ar/offers/"
+    },
+    {
+      brand:"شانجان",
+      country:"الصين",
+      dealer:"المجدوعي",
+      dealer_url:"https://changan-ksa.com",
+      city:"الدمام",
+      phone:"8001242999",
+      brand_url:"https://changan-ksa.com",
+      parent_url:"https://www.globalchangan.com",
+      has_offers:true,
+      offer_title:"عروض شانجان 2025 من المجدوعي",
+      offer_summary:"خيارات تمويل طويلة الأجل على CS85 وUNI-K مع مزايا إضافية للضمان.",
+      offer_link:"https://changan-ksa.com/category/offers-ar/?lang=ar"
+    },
+    // أمثلة لوكلاء بدون عروض محددة
+    {
+      brand:"هوندا",
+      country:"اليابان",
+      dealer:"عبدالله هاشم",
+      dealer_url:"https://www.abdullahhashem.com.sa",
+      city:"جدة",
+      phone:"8000100009",
+      brand_url:"https://www.honda.com.sa",
+      parent_url:"https://www.honda.com",
+      has_offers:false
+    },
+    {
+      brand:"مرسيدس بنز",
+      country:"ألمانيا",
+      dealer:"الجفالي",
+      dealer_url:"https://juffali.com.sa",
+      city:"جدة",
+      phone:"8002443000",
+      brand_url:"https://www.mercedes-benz-mena.com",
+      parent_url:"https://www.mercedes-benz.com",
+      has_offers:false
+    }
+  ];
+
+  const tbody = document.getElementById('tableBody');
+  const searchInput = document.getElementById('searchInput');
+  const countryFilter = document.getElementById('countryFilter');
+  const offerFilter = document.getElementById('offerFilter');
+  const stats = document.getElementById('stats');
+
+  let currentSortKey = null;
+  let currentSortDir = 'asc';
+
+  function renderTable(){
+    const q = searchInput.value.trim().toLowerCase();
+    const c = countryFilter.value;
+    const o = offerFilter.value;
+
+    let filtered = dealers.filter(d=>{
+      const text = (d.brand + ' ' + d.dealer + ' ' + d.city + ' ' + (d.country||'')).toLowerCase();
+      if(q && !text.includes(q)) return false;
+      if(c && d.country !== c) return false;
+      if(o === 'yes' && !d.has_offers) return false;
+      if(o === 'no' && d.has_offers) return false;
+      return true;
+    });
+
+    if(currentSortKey){
+      filtered.sort((a,b)=>{
+        const av = (a[currentSortKey]||'').toString().toLowerCase();
+        const bv = (b[currentSortKey]||'').toString().toLowerCase();
+        if(av < bv) return currentSortDir==='asc' ? -1 : 1;
+        if(av > bv) return currentSortDir==='asc' ? 1 : -1;
+        return 0;
+      });
+    }
+
+    tbody.innerHTML = '';
+    filtered.forEach(d=>{
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${d.brand}</td>
+        <td>${d.country}</td>
+        <td>${d.dealer}</td>
+        <td><a href="${d.dealer_url}" target="_blank" rel="noopener">موقع الوكيل</a></td>
+        <td>${d.city||'-'}</td>
+        <td><a href="tel:${d.phone}">${d.phone}</a></td>
+        <td>
+          ${d.has_offers
+            ? `<button class="badge-offer" onclick="openOffer('${encodeURIComponent(d.brand)}','${encodeURIComponent(d.dealer)}')">عرض</button>`
+            : `<span class="no-offer">--</span>`
+          }
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    stats.textContent = `عدد السجلات المعروضة: ${filtered.length} من ${dealers.length}`;
+  }
+
+  // فرز الأعمدة
+  document.querySelectorAll('th.sortable').forEach(th=>{
+    th.addEventListener('click',()=>{
+      const key = th.getAttribute('data-key');
+      if(currentSortKey === key){
+        currentSortDir = currentSortDir === 'asc' ? 'desc' : 'asc';
+      }else{
+        currentSortKey = key;
+        currentSortDir = 'asc';
+      }
+      renderTable();
+    });
+  });
+
+  searchInput.addEventListener('input',renderTable);
+  countryFilter.addEventListener('change',renderTable);
+  offerFilter.addEventListener('change',renderTable);
+
+  // منطق النافذة المنبثقة للعروض
+  const offerModalBackdrop = document.getElementById('offerModalBackdrop');
+  const offerTitle = document.getElementById('offerTitle');
+  const offerSummary = document.getElementById('offerSummary');
+  const offerNotes = document.getElementById('offerNotes');
+  const offerLink = document.getElementById('offerLink');
+  const offerCloseBtn = document.getElementById('offerCloseBtn');
+
+  window.openOffer = function(brandEnc,dealerEnc){
+    const brand = decodeURIComponent(brandEnc);
+    const dealer = decodeURIComponent(dealerEnc);
+    const d = dealers.find(x=>x.brand===brand && x.dealer===dealer && x.has_offers);
+    if(!d) return;
+    offerTitle.textContent = `${d.brand} -- ${d.dealer}`;
+    offerSummary.textContent = d.offer_summary || '';
+    offerNotes.innerHTML = `هذه نبذة مختصرة عن العرض الحالي. التفاصيل النهائية (السعر، الدفعة الأولى، مدة التمويل، الشروط) يجب التأكد منها من صفحة العرض الرسمية أو من الوكيل مباشرة.`;
+    offerLink.href = d.offer_link;
+    offerModalBackdrop.style.display = 'flex';
+  }
+
+  function closeModal(){
+    offerModalBackdrop.style.display = 'none';
+  }
+
+  offerCloseBtn.addEventListener('click',closeModal);
+  offerModalBackdrop.addEventListener('click',e=>{
+    if(e.target === offerModalBackdrop) closeModal();
+  });
+  document.addEventListener('keydown',e=>{
+    if(e.key === 'Escape') closeModal();
+  });
+
+  renderTable();
+</script>
+
+</body>
+</html>
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Single deploy job since we're just deploying
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload entire repository
+          path: '.'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
